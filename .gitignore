@@ -9,6 +9,7 @@ build/*
 _C.*
 outputs/*
 checkpoints/*.pt
+gdino_checkpoints/*.pth
 *test*
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -145,3 +146,12 @@ dmypy.json
 outputs/
 
 .idea/
+
+# API keys
+*.yaml
+
+# Other directories
+/molmo/
+/slogs/
+/archived/
+/runs/

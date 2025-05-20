@@ -8,6 +8,67 @@
 
 [![Video Name](./assets/grounded_sam_2_intro.jpg)](https://github.com/user-attachments/assets/f0fb0022-779a-49fb-8f46-3a18a8b4e893)
 
+## MassID45 Instructions
+1. Install using the following commands. We recommend creating a separate Python environment for this repository:
+
+```bash
+# optional: module load cuda-12.1
+conda create --name gdino_sam2 python=3.10
+pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu121
+
+# Clone SAM2 repo: 
+git clone https://github.com/facebookresearch/sam2.git
+cd sam2
+git checkout c2ec8e14a185632b0a5d8b161928ceb50197eddc
+pip install --no-build-isolation -e .
+
+# Install correct g++ version
+conda install -c conda-forge "gxx>=9.0.0,<12.0.0"
+
+git clone https://github.com/IDEA-Research/Grounded-SAM-2.git
+cd Grounded-SAM-2
+pip install --no-build-isolation -e grounding_dino
+pip install opencv-python transformers==4.43.3 supervision==0.23.0 pycocotools addict yapf timm flash_attn==2.6.3
+
+# Customized version of SAHI
+pip install -e ./sahi_pkg
+
+# Google GenAI libraries
+pip install google-auth==2.38.0 google-genai==1.8.0
+```
+2. Download the pretrained `Grounding DINO` checkpoints:
+
+```bash
+cd gdino_checkpoints
+bash download_ckpts.sh
+```
+And the pretrained `SAM 2` checkpoints:
+
+```bash
+cd checkpoints
+bash download_ckpts.sh
+```
+
+3. To run inference with Grounding DINO, replace `--dataset_img_path` and `--dataset_json_path` in `sahi_inference_zero_shot_gdino.sh` with the locations of the validation or testing data, respectively, then run:
+
+```bash
+sbatch sahi_inference_zero_shot_gdino.sh
+```
+
+4. To run inference with Florence-2, replace `--dataset_img_path` and `--dataset_json_path` in `sahi_inference_zero_shot_florence2.sh` with the locations of the validation or testing data, respectively, then run:
+
+```bash
+sbatch sahi_inference_zero_shot_florence2.sh
+```
+
+5. To run inference with Gemini Flash 2.0, replace `--dataset_img_path` and `--dataset_json_path` in `sahi_inference_zero_shot_gemini.sh` with the locations of the validation or testing data, respectively, then run:
+
+```bash
+# Warning: this will run for several hours
+sbatch sahi_inference_zero_shot_gemini.sh
+```
+6. See results in the generated `runs/predict` folder
+
 ## Highlights
 
  Grounded SAM 2 is a foundation model pipeline towards grounding and track anything in Videos with [Grounding DINO](https://arxiv.org/abs/2303.05499), [Grounding DINO 1.5](https://arxiv.org/abs/2405.10300), [Florence-2](https://arxiv.org/abs/2311.06242), [DINO-X](https://arxiv.org/abs/2411.14347) and [SAM 2](https://arxiv.org/abs/2408.00714).
