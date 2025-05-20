@@ -39,7 +39,7 @@ def load_model(model_config_path: str, model_checkpoint_path: str, device: str =
 def load_image(image_path: str) -> Tuple[np.array, torch.Tensor]:
     transform = T.Compose(
         [
-            T.RandomResize([800], max_size=1333),
+            T.RandomResize([1024], max_size=1024),
             T.ToTensor(),
             T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
         ]
@@ -239,7 +239,7 @@ class Model:
     def preprocess_image(image_bgr: np.ndarray) -> torch.Tensor:
         transform = T.Compose(
             [
-                T.RandomResize([800], max_size=1333),
+                T.RandomResize([1024], max_size=1024),
                 T.ToTensor(),
                 T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
             ]

@@ -1,5 +1,32 @@
 ## Installation
 
+### Sample Conda Installation Script:
+```bash
+# optional: module load cuda-12.1
+conda create --name gdino_sam2 python=3.10
+pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu121
+
+# Clone SAM2 repo: 
+git clone https://github.com/facebookresearch/sam2.git
+cd sam2
+git checkout c2ec8e14a185632b0a5d8b161928ceb50197eddc
+pip install --no-build-isolation -e .
+
+# Install correct g++ version
+conda install -c conda-forge "gxx>=9.0.0,<12.0.0"
+
+git clone https://github.com/IDEA-Research/Grounded-SAM-2.git
+cd Grounded-SAM-2
+pip install --no-build-isolation -e grounding_dino
+pip install opencv-python transformers==4.43.3 supervision==0.23.0 pycocotools addict yapf timm flash_attn==2.6.3
+
+# Customized version of SAHI
+pip install -e ./sahi_pkg
+
+# Google GenAI libraries
+pip install google-auth==2.38.0 google-genai==1.8.0
+```
+
 ### Requirements
 
 - Linux with Python ≥ 3.10, PyTorch ≥ 2.3.1 and [torchvision](https://github.com/pytorch/vision/) that matches the PyTorch installation. Install them together at https://pytorch.org to ensure this.
